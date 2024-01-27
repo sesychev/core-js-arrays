@@ -261,8 +261,10 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  return n === 1
+    ? Array(size).fill(0)
+    : Array.from({ length: size }, () => createNDimensionalArray(n - 1, size));
 }
 
 /**
@@ -344,8 +346,8 @@ function createChunks(arr, chunkSize) {
  *    generateOdds(2) => [ 1, 3 ]
  *    generateOdds(5) => [ 1, 3, 5, 7, 9 ]
  */
-function generateOdds(/* len */) {
-  throw new Error('Not implemented');
+function generateOdds(len) {
+  return len === 0 ? [] : Array.from({ length: len }, (_, i) => i * 2 + 1);
 }
 
 /**
@@ -360,8 +362,9 @@ function generateOdds(/* len */) {
  *   getElementByIndices(['one','two','three'], [2]) => 'three'  (arr[2])
  *   getElementByIndices([[[ 1, 2, 3]]], [ 0, 0, 1 ]) => 2        (arr[0][0][1])
  */
-function getElementByIndices(/* arr, indices */) {
-  throw new Error('Not implemented');
+function getElementByIndices(arr, indices) {
+  const [c, ...a] = indices;
+  return indices.length === 0 ? arr : getElementByIndices(arr[c], a);
 }
 
 /**
@@ -398,8 +401,10 @@ function getFalsyValuesCount(arr) {
  *                              [0,0,0,1,0],
  *                              [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return Array.from({ length: n }, (a, j) =>
+    [...new Array(n)].map((b, i) => (i + 1 === j + 1 ? 1 : 0))
+  );
 }
 
 /**
@@ -480,8 +485,17 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  let a = 0;
+  let c = 0;
+  nums.map((_, i) => {
+    if (nums[i] > nums[i - 1]) {
+      c += 1;
+      if (c > a) a = c;
+    } else c = 0;
+    return '';
+  });
+  return a + 1;
 }
 
 /**
@@ -515,8 +529,11 @@ function propagateItemsByPositionIndex(arr) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  const res = [];
+  res.push(arr.slice(-n));
+  res.push(arr.slice(0, -n));
+  return res.flat();
 }
 
 /**
